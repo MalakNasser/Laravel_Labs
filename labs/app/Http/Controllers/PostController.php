@@ -4,15 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
+use App\Http\Requests\StorePost;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $posts = Post::paginate();
+        $posts = Post::paginate(10);
         return view('user_posts.index', ['posts' => $posts]);
     }
 
@@ -24,36 +23,35 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('user_posts.create');
+        $users = User::all();
+        return view('user_posts.create', ['users' => $users]);
     }
 
-    public function store(Request $request)
+    public function store(StorePost $request)
     {
-        $post = new \App\Models\Post();
-        $post->title = $request->title;
-        $post->body = $request->body;
-        $post->enabled = $request->enabled;
-        $post->published_at = $request->published_at;
-        $post->save();
+        $post = Post::create($request->validated());
+        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
+
 
     public function edit(string $id)
     {
-        $post = \App\Models\Post::find($id);
+        $post = Post::find($id);
         return view('user_posts.edit', ['post' => $post]);
     }
 
-    public function update(Request $request, string $id)
+    public function update(StorePost $request, string $id)
     {
-        return "Update the specified resource with id {id}
-        in storage.";
+        $post = Post::find($id);
+        $post->update($request->validated());
+        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
 
     public function destroy(string $id)
     {
         $post = Post::find($id);
         $post->delete();
-        return view('user_posts.show', ['post' => $post]);
+        return redirect()->route('posts.index');
     }
 
     public function showTrash()
