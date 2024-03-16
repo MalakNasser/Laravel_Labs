@@ -32,20 +32,7 @@
 
             <input type="datetime-local" name="published_at" value="{{ now()->format('Y-m-d\TH:i') }}" hidden>
 
-            <div class="form-group">
-                <label for="user_id">Select User</label>
-                <select name="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror" required>
-                    <option value="" disabled selected>Select User</option>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                    @endforeach
-                </select>
-                @error('user_id')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
+            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 
             <div class="form-group">
                 <div class="form-check">

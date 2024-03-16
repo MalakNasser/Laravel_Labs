@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
 use App\Http\Requests\StorePost;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -29,8 +30,10 @@ class PostController extends Controller
 
     public function store(StorePost $request)
     {
-        $post = Post::create($request->validated());
-        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
+        $data = $request->validated();
+        $data['user_id'] = Auth()->id();
+        $post = Post::create($data);
+        return redirect()->route('posts.show', ['id' => $post->id])->with(['post' => $post]);
     }
 
 

@@ -30,12 +30,14 @@
                             <td>{{ $post->id }}</td>
                             <td><a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></td>
                             <td>{{ $post->user->name }}</td>
-                            <td>{{ $post->enabled }}</td>
+                            <td>{{ $post->enabled ? 'Yes' : 'No' }}</td>
                             <td>{{ $post->published_at }}</td>
                             <td>
-                                <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                                <button class="btn btn-danger btn-sm delete-post"
-                                    data-post-id="{{ $post->id }}">Delete</button>
+                                @if ($post->user_id == Auth::id())
+                                    <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                    <button class="btn btn-danger btn-sm delete-post"
+                                        data-post-id="{{ $post->id }}">Delete</button>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

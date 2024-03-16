@@ -14,7 +14,11 @@
 
         .home-link {
             font-size: 20px;
-            margin-right: 800px;
+        }
+
+        .user-link {
+            font-size: 20px;
+            margin-right: 500px;
         }
     </style>
 </head>
@@ -25,6 +29,7 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ route('posts.index') }}">Laravel</a>
                 <a class="nav-link home-link" href="{{ route('posts.index') }}">Home</a>
+                <a class="nav-link user-link" href="{{ route('users.index') }}">Users</a>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
