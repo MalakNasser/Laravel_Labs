@@ -32,6 +32,12 @@ class PostController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = Auth()->id();
+
+        $imagePath = null;
+        if ($request->has('image') && $request->file('image')->isValid()) {
+            $imagePath = $request->file('image')->store('posts', ['disk' => 'public']);
+        }
+        $data['image'] = $imagePath;
         $post = Post::create($data);
         return redirect()->route('posts.show', ['id' => $post->id])->with(['post' => $post]);
     }
@@ -46,8 +52,15 @@ class PostController extends Controller
     public function update(StorePost $request, string $id)
     {
         $post = Post::find($id);
-        $post->update($request->validated());
-        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $imagePath = $request->file('image')->store('posts', ['disk' => 'public']);
+            $post['image'] = $imagePath;
+        }
+
+        $post->update($request->only('title', 'body', 'enabled'));
+
+        return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
 
     public function destroy(string $id)

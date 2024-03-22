@@ -5,7 +5,7 @@
 @section('content')
     <div class="container mt-5">
         <h1>Create Post</h1>
-        <form method="POST" action="{{ route('posts.store') }}">
+        <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="form-group">
@@ -42,6 +42,17 @@
 
                     <label class="form-check-label" for="enabled">Enabled</label>
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label for="post-image">Image</label>
+                <input type="file" id="post-image" name="image"
+                    class="form-control-file @error('image') is-invalid @enderror">
+                @error('image')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
 
             <div class="form-group">

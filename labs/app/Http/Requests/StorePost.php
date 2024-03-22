@@ -27,6 +27,7 @@ class StorePost extends FormRequest
             'enabled' => 'required|boolean',
             'published_at' => 'nullable|date',
             'user_id' => 'required',
+            'image' => 'nullable|image',
         ];
     }
 
@@ -39,6 +40,7 @@ class StorePost extends FormRequest
             'published_at.date' => 'The published at must be a valid date.',
             'enabled.boolean' => 'The enabled field must be true or false.',
             'user_id' => 'The user must be selected',
+            'image.image' => 'The image must be an image file.',
         ];
     }
 }

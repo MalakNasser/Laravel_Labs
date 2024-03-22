@@ -24,7 +24,7 @@
                 <div class="col-md-8">
                     <h1>Edit Post</h1>
 
-                    <form method="POST" action="{{ route('posts.update', $post->id) }}">
+                    <form method="POST" action="{{ route('posts.update', $post->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -63,6 +63,17 @@
 
                                 <label class="form-check-label" for="enabled">Enabled</label>
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="post-image">Image</label>
+                            <input type="file" id="post-image" name="image"
+                                class="form-control-file @error('image') is-invalid @enderror" value="{{ $post->image }}">
+                            @error('image')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <div class="form-group">
